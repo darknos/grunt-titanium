@@ -90,7 +90,7 @@ module.exports = function(grunt) {
 
 		// ensure login, create app, build/run app
 		async.series([
-			ensureLogin,
+			function(callback) { return ensureLogin(opts.preferGlobal || false, callback); },
 			function(callback) { return execCommand('create', createOpts, callback); },
 			function(callback) {
 
@@ -181,7 +181,7 @@ module.exports = function(grunt) {
 
 		// ensure login and execute the command
 		async.series([
-			ensureLogin,
+			function(callback) { return ensureLogin(options.preferGlobal || false, callback); },
 			function(callback) {
 				return execCommand(command, options, callback);
 			}
@@ -299,8 +299,8 @@ module.exports = function(grunt) {
 	}
 
 	// ensure appc user is logged in
-	function ensureLogin(callback) {
-		exec('"' + getTitaniumPath() + '" status -o json', function(err, stdout, stderr) {
+	function ensureLogin(preferGlobal, callback) {
+		exec('"' + getTitaniumPath(preferGlobal) + '" status -o json', function(err, stdout, stderr) {
 			if (err) { return callback(err); }
 			if (!JSON.parse(stdout).loggedIn) {
 				grunt.fail.fatal([
