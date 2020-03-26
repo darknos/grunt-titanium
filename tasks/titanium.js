@@ -302,11 +302,11 @@ module.exports = function(grunt) {
 	function ensureLogin(preferGlobal, callback) {
 		exec('"' + getTitaniumPath(preferGlobal) + '" status -o json', function(err, stdout, stderr) {
 			if (err) { return callback(err); }
-			if (!JSON.parse(stdout).loggedIn) {
-				grunt.fail.fatal([
-					'You must be logged in to use grunt-titanium. Use `titanium login`.'
-				]);
-			}
+			// if (!JSON.parse(stdout).loggedIn) {
+			// 	grunt.fail.fatal([
+			// 		'You must be logged in to use grunt-titanium. Use `titanium login`.'
+			// 	]);
+			// }
 			return callback();
 		});
 	}
